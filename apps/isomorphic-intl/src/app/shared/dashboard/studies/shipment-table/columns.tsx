@@ -128,9 +128,12 @@ export const studiesColumns = [
       },
     }) => (
       <TableRowActionGroup
-        onDelete={() =>
-          meta?.handleDeleteRow && meta?.handleDeleteRow(row.original)
-        }
+        // onDelete={() =>
+        //   meta?.handleDeleteRow && meta?.handleDeleteRow(row.original)
+        // }
+        onDelete={() => {
+          console.log('delete');
+        }}
       />
     ),
   }),
