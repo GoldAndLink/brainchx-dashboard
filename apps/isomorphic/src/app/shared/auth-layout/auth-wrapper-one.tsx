@@ -1,8 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-// import logoImg from '@public/logo-primary.svg';
-import logoImg from '@public/logo-primary.png';
+import logoImg from '@public/logo-primary.svg';
+// import logoImg from '@public/logo-primary.png';
 // import logoImgText from '@public/logo-primary-text.svg';
 import Image from 'next/image';
 import { Button, Title, Text } from 'rizzui';
