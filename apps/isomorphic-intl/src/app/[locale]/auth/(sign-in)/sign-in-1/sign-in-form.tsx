@@ -10,23 +10,30 @@ import { Form } from "@core/ui/form";
 import { routes } from "@/config/routes";
 import { loginSchema, LoginSchema } from "@/validators/login.schema";
 import { useTranslations } from "next-intl";
+import { useFormState, useFormStatus } from "react-dom";
+import { handleSignIn } from "@/lib/cognitoActions";
 
-const initialValues: LoginSchema = {
-  email: "admin@admin.com",
-  password: "admin",
-  rememberMe: true,
-};
+// const initialValues: LoginSchema = {
+//   email: "admin@admin.com",
+//   password: "admin",
+//   rememberMe: true,
+// };
 
 export default function SignInForm() {
   //TODO: why we need to reset it here
   const t = useTranslations("form");
   const [reset, setReset] = useState({});
+  const [errorMessage, dispatch] = useFormState(handleSignIn, undefined);
 
   const onSubmit: SubmitHandler<LoginSchema> = (data) => {
     console.log(data);
-    signIn("credentials", {
-      ...data,
-    });
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("password", data.password);
+    dispatch(formData);
+    // signIn("cognito", {
+    //   ...data,
+    // });
     // setReset({ email: "", password: "", isRememberMe: false });
   };
 
@@ -38,7 +45,7 @@ export default function SignInForm() {
         onSubmit={onSubmit}
         useFormProps={{
           mode: "onChange",
-          defaultValues: initialValues,
+          // defaultValues: initialValues,
         }}
       >
         {({ register, formState: { errors } }) => (
@@ -62,7 +69,7 @@ export default function SignInForm() {
               {...register("password")}
               error={errors.password?.message}
             />
-            <div className="flex items-center justify-between pb-2">
+            {/* <div className="flex items-center justify-between pb-2">
               <Checkbox
                 {...register("rememberMe")}
                 label="Remember Me"
@@ -75,14 +82,22 @@ export default function SignInForm() {
               >
                 Forget Password?
               </Link>
-            </div>
-            <Button
-              className="w-full"
-              type="submit"
-              size="lg"
+            </div> */}
+            <LoginButton />
+            <div className="flex h-8 items-end space-x-1">
+            <div
+              className="flex h-8 items-end space-x-1"
+              aria-live="polite"
+              aria-atomic="true"
             >
-              <span>Sign in</span> <PiArrowRightBold className="ms-2 mt-0.5 h-6 w-6" />
-            </Button>
+              {errorMessage && (
+                <>
+                  {/* <ExclamationCircleIcon className="h-5 w-5 text-red-500" /> */}
+                  <p className="text-sm text-red-500">{errorMessage}</p>
+                </>
+              )}
+            </div>
+          </div>
           </div>
         )}
       </Form>
@@ -96,5 +111,15 @@ export default function SignInForm() {
         </Link>
       </Text> */}
     </>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" className="mt-4 w-full" aria-disabled={pending}>
+      Log in <PiArrowRightBold className="ms-2 mt-0.5 h-6 w-6" />
+    </Button>
   );
 }

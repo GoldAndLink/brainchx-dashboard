@@ -13,13 +13,20 @@ import { StudiesTableDataType } from './table';
 import { getRandomArrayElement } from '@core/utils/get-random-array-element';
 import { avatarIds } from '@core/utils/get-avatar';
 
+import { ColumnDef } from '@tanstack/react-table';
+
+
 const columnHelper = createColumnHelper<StudiesTableDataType>();
+
+// Ensure consistent default sorting
+const defaultSort = { id: 'created_at', desc: true };
 
 export const studiesColumns = [
   columnHelper.display({
     id: 'checked',
     size: 70,
     cell: ({ row }) => {
+      console.log('row: ', row);
       return (
         <Checkbox
           checked={row.getIsSelected()}
@@ -29,32 +36,54 @@ export const studiesColumns = [
       );
     },
   }),
-  columnHelper.display({
-    id: 'trackingNumber',
+  columnHelper.accessor('patient_id', {
+    id: 'patient_id',
     size: 180,
     header: 'Patient ID',
     cell: ({ row }) => {
       return <Text>{row.original.patient_id}</Text>;
     },
   }),
-  columnHelper.accessor('user_name', {
-    id: 'user_name',
+  // columnHelper.accessor('user_name', {
+  //   id: 'user_name',
+  //   size: 250,
+  //   header: 'User Name',
+  //   enableSorting: false,
+  //   cell: ({ row }) => {
+  //     const src = `https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-${getRandomArrayElement(
+  //       avatarIds
+  //     )}.webp`;
+  //     return (
+  //       <AvatarCard
+  //         src={src}
+  //         name={row.original.user_name}
+  //         avatarProps={{
+  //           name: row.original.user_name,
+  //           size: 'sm',
+  //         }}
+  //       />
+  //     );
+  //   },
+  // }),
+  columnHelper.accessor('study_id', {
+    id: 'study_id',
     size: 250,
-    header: 'User Name',
+    header: 'Study ID',
     enableSorting: false,
     cell: ({ row }) => {
-      const src = `https://isomorphic-furyroad.s3.amazonaws.com/public/avatars-blur/avatar-${getRandomArrayElement(
-        avatarIds
-      )}.webp`;
       return (
-        <AvatarCard
-          src={src}
-          name={row.original.user_name}
-          avatarProps={{
-            name: row.original.user_name,
-            size: 'sm',
-          }}
-        />
+        <Text>{row.original.study_id}</Text>
+      );
+    },
+  }),
+  columnHelper.accessor('study_phase', {
+    id: 'study_phase',
+    size: 250,
+    header: 'Study Phase',
+    enableSorting: false,
+    cell: ({ row }) => {
+      return (
+        <Text>{row.original.study_phase}</Text>
       );
     },
   }),

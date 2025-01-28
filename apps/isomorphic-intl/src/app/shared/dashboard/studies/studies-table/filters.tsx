@@ -30,8 +30,9 @@ export default function Filters<TData extends Record<string, any>>({
   const isMediumScreen = useMedia('(max-width: 1860px)', false);
 
   return (
-    <Flex align="center" justify="between" className="my-6 px-5">
-      <Flex align="center" className="w-auto">
+    // <Flex align="center" justify="between" className="my-6 px-5">
+    <Flex align="center" justify="end" className="my-6 px-5">
+      {/* <Flex align="center" className="w-auto">
         <Input
           type="search"
           clearable={true}
@@ -44,8 +45,8 @@ export default function Filters<TData extends Record<string, any>>({
           className="w-full max-w-64"
         />
         {!isMediumScreen && showFilters && <FilterElements table={table} />}
-      </Flex>
-      {isMediumScreen && (
+      </Flex> */}
+      {/* {isMediumScreen && (
         <FilterDrawerView
           drawerTitle="Table Filters"
           isOpen={openDrawer}
@@ -55,9 +56,9 @@ export default function Filters<TData extends Record<string, any>>({
             <FilterElements table={table} />
           </div>
         </FilterDrawerView>
-      )}
+      )} */}
       <Flex align="center" className="w-auto">
-        <Button
+        {/* <Button
           {...(isMediumScreen
             ? {
                 onClick: () => {
@@ -73,7 +74,7 @@ export default function Filters<TData extends Record<string, any>>({
         >
           <PiFunnel className="me-1.5 h-[18px] w-[18px]" strokeWidth={1.7} />
           {!isMediumScreen && showFilters ? 'Hide' : 'Filters'}
-        </Button>
+        </Button> */}
 
         <ToggleColumns table={table} />
       </Flex>

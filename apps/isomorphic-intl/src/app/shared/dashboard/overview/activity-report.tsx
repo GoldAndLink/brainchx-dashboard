@@ -104,7 +104,7 @@ export default function ActivityReport({ className }: { className?: string }) {
         </div>
         <div className="flex items-start">
           <div className="me-3 rounded bg-[#6B46FF] p-2 text-white">
-            <PiUploadSimple className="h-6 w-6" />
+            <PiDownloadSimple className="h-6 w-6" />
           </div>
           <div>
             <Text className="text-gray-500">{t("text-sophia-studies")}</Text>

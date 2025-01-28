@@ -8,6 +8,8 @@ import { Link } from "@/i18n/routing";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { handleSignOut } from "@/lib/cognitoActions";
+import useAuthUser from "@/app/hooks/use-auth-user";
 
 export default function ProfileMenu({
   buttonClassName,
@@ -18,6 +20,8 @@ export default function ProfileMenu({
   avatarClassName?: string;
   username?: boolean;
 }) {
+  const user = useAuthUser();
+
   return (
     <ProfileMenuPopover>
       <Popover.Trigger>
@@ -27,21 +31,24 @@ export default function ProfileMenu({
             buttonClassName
           )}
         >
-          <Avatar
-            src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-            name="John Doe"
-            className={cn("!h-9 w-9 sm:!h-10 sm:!w-10", avatarClassName)}
-          />
+          {user?.name ? (
+            <Avatar
+              name={user.name}
+              src={`https://ui-avatars.com/api/?name=${user.name.split(' ').map((n: string) => n[0]).join('')}&&background=random`}
+            />
+          ) : (
+            <div className="h-10 w-10 rounded-full bg-gray-300 animate-pulse" />
+          )}
           {!!username && (
             <span className="username hidden text-gray-200 dark:text-gray-700 md:inline-flex">
-              Hi, Andry
+              Hi, {user?.name}
             </span>
           )}
         </button>
       </Popover.Trigger>
 
       <Popover.Content className="z-[9999] p-0 dark:bg-gray-100 [&>svg]:dark:fill-gray-100">
-        <DropdownMenu />
+        <DropdownMenu user={user} />
       </Popover.Content>
     </ProfileMenuPopover>
   );
@@ -82,24 +89,28 @@ const menuItems = [
   },
 ];
 
-function DropdownMenu() {
+function DropdownMenu({ user }: { user: any }) {
   const t = useTranslations("common");
 
   return (
     <div className="w-64 text-left rtl:text-right">
       <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
-        <Avatar
-          src="https://isomorphic-furyroad.s3.amazonaws.com/public/avatars/avatar-11.webp"
-          name="Boris Rauchmann"
-        />
+        {user?.name ? (
+          <Avatar
+            name={user.name}
+            src={`https://ui-avatars.com/api/?name=${user.name.split(' ').map((n: string) => n[0]).join('')}&&background=random`}
+          />
+        ) : (
+          <div className="h-10 w-10 rounded-full bg-gray-300 animate-pulse" />
+        )}
         <div className="ms-3">
           <Title
             as="h6"
             className="font-semibold"
           >
-            Boris Rauchmann
+            {user?.name}
           </Title>
-          <Text className="text-gray-600">boris@medotrax.com</Text>
+          <Text className="text-gray-600">{user?.email}</Text>
         </div>
       </div>
       {/* <div className="grid px-3.5 py-3.5 font-medium text-gray-700">
@@ -117,7 +128,11 @@ function DropdownMenu() {
         <Button
           className="h-auto w-full justify-start p-0 font-medium text-gray-700 outline-none focus-within:text-gray-600 hover:text-gray-900 focus-visible:ring-0"
           variant="text"
-          onClick={() => signOut()}
+          onClick={() => {
+            handleSignOut();
+            signOut();
+            window.location.href = "/auth/sign-in-1";
+          }}
         >
           {t("text-sign-out")}
         </Button>

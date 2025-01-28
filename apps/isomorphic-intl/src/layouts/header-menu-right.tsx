@@ -12,8 +12,8 @@ export default function HeaderMenuRight() {
     <div className="ms-auto flex shrink-0 items-center gap-2 xs:gap-3 xl:gap-4">
       <LanguageSwitcher />
 
-      <div className="grid grid-cols-4 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-4">
-        <NotificationDropdown>
+      <div className="grid grid-cols-1 items-center gap-2 text-gray-700 xs:gap-3 xl:gap-4">
+        {/* <NotificationDropdown>
           <ActionIcon
             aria-label="Notification"
             variant="text"
@@ -27,8 +27,8 @@ export default function HeaderMenuRight() {
               className="absolute right-2.5 top-2.5 -translate-y-1/3 translate-x-1/2"
             />
           </ActionIcon>
-        </NotificationDropdown>
-        <MessagesDropdown>
+        </NotificationDropdown> */}
+        {/* <MessagesDropdown>
           <ActionIcon
             aria-label="Messages"
             variant="text"
@@ -42,9 +42,9 @@ export default function HeaderMenuRight() {
               className="absolute right-2.5 top-2.5 -translate-y-1/3 translate-x-1/2"
             />
           </ActionIcon>
-        </MessagesDropdown>
+        </MessagesDropdown> */}
 
-        <SettingsButton />
+        {/* <SettingsButton /> */}
         <ProfileMenu />
       </div>
     </div>

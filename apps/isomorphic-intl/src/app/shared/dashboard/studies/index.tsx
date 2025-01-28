@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 // import StatCards from '@/app/shared/logistics/dashboard/stat-cards';
 // import TopCustomer from '@/app/shared/logistics/dashboard/top-customer';
 // import TopShipmentCountries from '@/app/shared/logistics/dashboard/top-shipment-countries';
-import ShipmentTableWidget from '@/app/shared/dashboard/studies/shipment-table';
+import StudiesTableWidget from '@/app/shared/dashboard/studies/studies-table';
 
 const thisMonth = dayjs(new Date()).format('MMMM YYYY');
 
@@ -43,7 +43,7 @@ export default function LogisticsDashboard() {
 
         <TopCustomer className="col-span-full @3xl:col-span-full @5xl:col-span-full @7xl:col-span-8" /> */}
 
-        <ShipmentTableWidget
+        <StudiesTableWidget
           title="Studies"
           description={`Summary of studies`}
           className="col-span-full"

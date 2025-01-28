@@ -8,13 +8,26 @@ import { useTanStackTable } from '@core/components/table/custom/use-TanStack-Tab
 import { useStudiesQuery } from './use-studies-query';
 import { studies } from '@/data/studies';
 
-export type StudiesTableDataType = (typeof studies)['data'][number];
+export type StudiesTableDataType = {
+  patient_id: string;
+  study_id: string;
+  study_phase: string;
+  created_at: string;
+  image_data?: string;
+  s3_path: null;
+  [key: string]: any;
+  user?: {
+    username: string;
+    [key: string]: any;
+  } | null;
+};
 
 export default function StudiesTable() {
   const { data: studiesData, isLoading, error } = useStudiesQuery();
-  
+  console.log('studiesData:', studiesData);
   const { table, setData } = useTanStackTable<StudiesTableDataType>({
     tableData: studiesData?.data ?? [],
+    // tableData: studies.data,
     columnConfig: studiesColumns,
     options: {
       initialState: {
@@ -33,11 +46,11 @@ export default function StudiesTable() {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="flex justify-center items-center h-full">Loading...</div>;
   }
 
   if (error) {
-    return <div>Error loading studies data</div>;
+    return <div className="flex justify-center items-center h-full">Error loading studies data</div>;
   }
 
   return (

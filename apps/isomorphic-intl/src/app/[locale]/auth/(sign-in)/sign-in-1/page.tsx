@@ -1,3 +1,4 @@
+import { signIn, type SignInInput } from 'aws-amplify/auth';
 import Image from "next/image";
 import SignInForm from "./sign-in-form";
 import AuthWrapperOne from "@/app/shared/auth-layout/auth-wrapper-one";
@@ -8,6 +9,14 @@ import { useTranslations } from "next-intl";
 export const metadata = {
   ...metaObject("Sign In 1"),
 };
+
+async function handleSignIn({ username, password }: SignInInput) {
+  try {
+    const { isSignedIn, nextStep } = await signIn({ username, password });
+  } catch (error) {
+    console.log('error signing in', error);
+  }
+}
 
 export default function SignIn() {
   const t = useTranslations("auth");

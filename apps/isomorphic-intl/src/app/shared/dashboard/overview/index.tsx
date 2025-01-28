@@ -18,14 +18,14 @@ export default function OverviewDashboard() {
         <div className="col-span-full flex flex-col gap-6 @5xl:col-span-8 2xl:gap-8 3xl:col-span-9">
           {/* <QuickAccess /> */}
           {/* <RecentFiles /> */}
-          <ActivityReport />
+          {/* <ActivityReport /> */}
           {/* <FileListTable /> */}
           <StudiesReport className="@container @4xl:col-span-8 @[96.937rem]:col-span-9" />
         </div>
 
         <div className="col-span-full flex flex-col gap-6 @5xl:col-span-4 2xl:gap-8 3xl:col-span-3">
           <RecentActivities />
-          <Members />
+          {/* <Members /> */}
           {/* <UpgradeStorage /> */}
         </div>
 

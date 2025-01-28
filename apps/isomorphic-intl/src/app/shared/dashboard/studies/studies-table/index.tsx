@@ -1,18 +1,18 @@
 import cn from '@core/utils/class-names';
 import WidgetCard from '@core/components/cards/widget-card';
-import ShipmentTable from './table';
+import StudiesTable from './table';
 
-type ShipmentTableWidgetProps = {
+type StudiesTableWidgetProps = {
   title: string;
   description: string;
   className?: string;
 };
 
-export default function ShipmentTableWidget({
+export default function StudiesTableWidget({
   title,
   description,
   className,
-}: ShipmentTableWidgetProps) {
+}: StudiesTableWidgetProps) {
   return (
     <WidgetCard
       title={title}
@@ -21,7 +21,7 @@ export default function ShipmentTableWidget({
       className={cn('p-0 lg:p-0', className)}
       headerClassName="px-5 pt-5 lg:px-5 lg:pt-7"
     >
-      <ShipmentTable />
+      <StudiesTable />
     </WidgetCard>
   );
 }

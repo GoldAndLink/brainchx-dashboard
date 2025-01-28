@@ -19,7 +19,7 @@ export default function Header() {
           <Logo iconOnly={true} />
         </Link>
 
-        <SearchWidget />
+        {/* <SearchWidget /> */}
       </div>
 
       <HeaderMenuRight />

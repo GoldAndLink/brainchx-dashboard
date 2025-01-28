@@ -1,4 +1,4 @@
-import { Title, Text, ActionIcon, Button, Popover } from "rizzui";
+import { Title, Text, ActionIcon, Button, Popover, cn } from "rizzui";
 import TrashIcon from "@core/components/icons/trash";
 import { PiTrashFill } from "react-icons/pi";
 
@@ -6,9 +6,10 @@ type DeletePopoverProps = {
   title: string;
   description: string;
   onDelete?: () => void;
+  isDisabled?: boolean;
 };
 
-export default function DeletePopover({ title, description, onDelete }: DeletePopoverProps) {
+export default function DeletePopover({ title, description, onDelete, isDisabled }: DeletePopoverProps) {
   return (
     <Popover placement="left">
       <Popover.Trigger>
@@ -16,7 +17,7 @@ export default function DeletePopover({ title, description, onDelete }: DeletePo
           size="sm"
           variant="outline"
           aria-label={"Delete Item"}
-          className="cursor-pointer"
+          className={cn("cursor-pointer", isDisabled && "cursor-not-allowed")}
         >
           <TrashIcon className="size-4" />
         </ActionIcon>
@@ -39,6 +40,7 @@ export default function DeletePopover({ title, description, onDelete }: DeletePo
                   onDelete && onDelete();
                   setOpen(false);
                 }}
+                disabled={isDisabled}
               >
                 Yes
               </Button>
@@ -47,6 +49,7 @@ export default function DeletePopover({ title, description, onDelete }: DeletePo
                 variant="outline"
                 className="h-7"
                 onClick={() => setOpen(false)}
+                disabled={isDisabled}
               >
                 No
               </Button>
