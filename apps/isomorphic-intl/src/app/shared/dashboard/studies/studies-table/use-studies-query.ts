@@ -134,7 +134,11 @@ async function fetchStudies(): Promise<StudiesResponse> {
   const url = '/api/patient_data?patient_id_only=true&limit=100&page=1'
 
   // Replace with your actual API endpoint
-  const response = await axios.get(url);
+  const response = await axios.get(url, {
+    headers: {
+      'x-api-key': 'FryrCerAjT63p8YLJwGfZ6rHf9UYLVK1aiTjYlut'
+    }
+  });
   
   // Decode base64 data
   const decodedResponse = {
