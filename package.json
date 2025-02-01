@@ -44,5 +44,6 @@
   "packageManager": "pnpm@9.1.4",
   "engines": {
     "node": ">=18"
-  }
+  },
+  "workspaces": ["packages/*", "apps/*"]
 }
