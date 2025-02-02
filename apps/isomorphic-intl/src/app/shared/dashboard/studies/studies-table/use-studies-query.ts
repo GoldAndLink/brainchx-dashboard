@@ -131,7 +131,7 @@ interface StudiesResponse {
 
 // Define the fetch function
 async function fetchStudies(): Promise<StudiesResponse> {
-  const url = '/api/patient_data?patient_id_only=true&limit=100&page=1'
+  const url = '/api/patient_data?patient_id_only=false&limit=100&page=1'
 
   // Replace with your actual API endpoint
   const response = await axios.get(url, {
