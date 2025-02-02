@@ -8,7 +8,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://jmuq5a8gk2.execute-api.eu-central-1.amazonaws.com/development/:path*',
+        destination: 'https://mi1026bauf.execute-api.eu-central-1.amazonaws.com/development/:path*',
       },
     ];
   },
