@@ -145,7 +145,8 @@ async function fetchStudies(): Promise<StudiesResponse> {
     ...response.data,
     data: response.data.data.map((item: ExportStudyType) => ({
       ...item,
-      user: typeof item.user === 'string' ? JSON.parse(Buffer.from(item.user, 'base64').toString()) : item.user
+      // user: typeof item.user === 'string' ? JSON.parse(Buffer.from(item.user, 'base64').toString()) : item.user
+      user: typeof item.user === 'string' ? JSON.parse(item.user) : item.user
     }))
   };
 
