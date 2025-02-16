@@ -252,14 +252,14 @@ export const exportColumns = [
       return <Text>{row.original.ct_vmt_wrong_answers_index}</Text>;
     },
   }),
-  exportColumnHelper.accessor('ct_lot_answers', {
-    id: 'ct_lot_answers',
-    size: 200,
-    header: 'CT LOT Answers',
-    cell: ({ row }) => {
-      return <Text>{row.original.ct_lot_answers}</Text>;
-    },
-  }),
+  // exportColumnHelper.accessor('ct_lot_answers', {
+  //   id: 'ct_lot_answers',
+  //   size: 200,
+  //   header: 'CT LOT Answers',
+  //   cell: ({ row }) => {
+  //     return <Text>{row.original.ct_lot_answers}</Text>;
+  //   },
+  // }),
   exportColumnHelper.accessor('ct_lot_right_answers_count', {
     id: 'ct_lot_right_answers_count',
     size: 200,
