@@ -196,9 +196,10 @@ export default function StudiesTable() {
 
   return (
     <>
-      <button
-        onClick={() => generateCSV('all')}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
+      <div className="flex justify-end gap-2 p-x-5">
+        <button
+          onClick={() => generateCSV('all')}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
       >
         Export all to CSV
       </button>
@@ -206,8 +207,9 @@ export default function StudiesTable() {
         onClick={() => generateCSV('visible')}
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
       >
-        Export visible to CSV
-      </button>
+          Export visible to CSV
+        </button>
+      </div>
       <Filters table={table} />
       <Table table={table} variant="modern" />
       <TablePagination table={table} className="p-4" />
