@@ -257,7 +257,7 @@ export const exportColumns = [
     size: 200,
     header: 'CT LOT Answers',
     cell: ({ row }) => {
-      return <Text>{JSON.stringify(row.original.ct_lot_answers)}</Text>;
+      return <Text>{String(row.original.ct_lot_answers).replace(/"/g, '&quot;')}</Text>;
     },
   }),
   exportColumnHelper.accessor('ct_lot_right_answers_count', {
@@ -265,7 +265,7 @@ export const exportColumns = [
     size: 200,
     header: 'CT LOT Right Answers Count',
     cell: ({ row }) => {
-      return <Text>{row.original.ct_lot_right_answers_count}</Text>;
+      return <Text>{String(row.original.ct_lot_right_answers_count).replace(/"/g, '&quot;')}</Text>;
     },
   }),
   exportColumnHelper.accessor('ct_lot_wrong_answers_count', {
@@ -273,7 +273,7 @@ export const exportColumns = [
     size: 200,
     header: 'CT LOT Wrong Answers Count',
     cell: ({ row }) => {
-      return <Text>{row.original.ct_lot_wrong_answers_count}</Text>;
+      return <Text>{String(row.original.ct_lot_wrong_answers_count).replace(/"/g, '&quot;')}</Text>;
     },
   }),
   exportColumnHelper.accessor('ct_tmt_b_duration', {

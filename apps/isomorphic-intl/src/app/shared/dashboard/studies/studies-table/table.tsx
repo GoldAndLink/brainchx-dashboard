@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setStudiesHashData, deleteStudy, StudiesState } from '@/store/studies/studies-slice';
 import { getCoreRowModel } from '@tanstack/react-table';
 import exportToCsv, { getCsvBlob } from "tanstack-table-export-to-csv";
+import { saveAs } from 'file-saver';
 
 export type StudyType = {
   patient_id: string;
@@ -144,6 +145,34 @@ export default function StudiesTable() {
     // a.click();
   };
 
+  const generateCSV = () => {
+    const csvRows = [];
+
+    // Header row
+    const headerRow = exportTable.getHeaderGroups()[0].headers.map((header) => header.column.columnDef.header).join(',');
+    csvRows.push(headerRow);
+
+
+    // Data rows
+    exportTable.getRowModel().rows.forEach((row) => {
+      const rowData = row.getVisibleCells().map((cell) => {
+          let cellValue = cell.getValue();
+
+          // Escape commas, quotes, and newlines
+          cellValue = String(cellValue).replace(/"/g, '""'); // Escape double quotes
+          if (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n')) {
+              cellValue = `"${cellValue}"`; // Enclose in double quotes
+          }
+          return cellValue;
+      }).join(',');
+      csvRows.push(rowData);
+    });
+
+    const csvContent = csvRows.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    saveAs(blob, 'data.csv'); // Download the file
+  };
+
   // Effect to refresh table data when studiesData changes
   useEffect(() => {
     setData(studiesData.data);
@@ -167,7 +196,7 @@ export default function StudiesTable() {
   return (
     <>
       <button 
-        onClick={handleExportToCsv} 
+        onClick={generateCSV} 
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
       >
         Export all to CSV
