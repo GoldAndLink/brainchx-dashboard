@@ -208,9 +208,9 @@ export default function StudiesTable() {
       >
         Export visible to CSV
       </button>
-      <Filters table={exportTable} />
-      <Table table={exportTable} variant="modern" />
-      <TablePagination table={exportTable} className="p-4" />
+      <Filters table={table} />
+      <Table table={table} variant="modern" />
+      <TablePagination table={table} className="p-4" />
     </>
   );
 }
