@@ -1,7 +1,3 @@
-# Isomorphic - React.js Next.js Admin Dashboard
-
-This monorepo is powered by [Turborepo](https://turbo.build/), a tool that optimizes build times for monorepo projects. Turborepo leverages your existing package.json scripts and dependencies, making it easy to set up and use.
-
 ## Getting Started
 
 System Requirements:
@@ -17,8 +13,6 @@ npm install -g turbo
 ```
 
 ## Starting development server
-
-#### Setup environment variables in every workspace `.env` file. You can find the `.env.example` file in the root of every workspace.
 
 To start the development server locally run the following commands
 
@@ -37,10 +31,3 @@ pnpm run build
 pnpm run start
 
 ```
-
-**You can find more commands in the project root `package.json` file.**
-To learn more about these commands checkout our [**Documentation**](https://isomorphic-doc.vercel.app/getting-started/installation)
-
-In your monorepo's root directory, there is a `turbo.json` file. This file allows you to configure custom tasks, set global dependencies, set environment variables, and more. [**Learn More about Turborepo**](https://turbo.build/repo/docs/handbook)
-
-Happy coding! 🚀
