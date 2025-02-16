@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { setStudiesHashData, deleteStudy, StudiesState } from '@/store/studies/studies-slice';
 import { getCoreRowModel } from '@tanstack/react-table';
-import { getCsvBlob } from "tanstack-table-export-to-csv";
+import exportToCsv, { getCsvBlob } from "tanstack-table-export-to-csv";
 
 export type StudyType = {
   patient_id: string;
@@ -134,13 +134,14 @@ export default function StudiesTable() {
 
     const rows = exportTable.getCoreRowModel().rows;
 
-    const csvBlob = getCsvBlob(headers, rows);
-    const url = URL.createObjectURL(csvBlob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'studies_data.csv';
-    document.body.appendChild(a);
-    a.click();
+    // const csvBlob = getCsvBlob(headers, rows);
+    exportToCsv('studies_data.csv', headers, rows);
+    // const url = URL.createObjectURL(csvBlob);
+    // const a = document.createElement('a');
+    // a.href = url;
+    // a.download = 'studies_data.csv';
+    // document.body.appendChild(a);
+    // a.click();
   };
 
   // Effect to refresh table data when studiesData changes
