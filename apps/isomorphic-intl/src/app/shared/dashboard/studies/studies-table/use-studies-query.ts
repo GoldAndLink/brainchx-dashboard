@@ -88,35 +88,6 @@ export type ExportStudyType = {
   [key: string]: any;  // This allows for additional properties
 }
 
-// Define the response type from the API
-// interface StudiesResponse {
-//   data: {
-//     patient_id: string;
-//     image_data: string | undefined;
-//     s3_path: string | null;
-//     study_id: string | undefined;
-//     study_phase: string | undefined;
-//     patient_drawing_presigned_urls: string[] | null | undefined;
-//     dicom_to_nifti_presigned_urls: string[] | null | undefined;
-//     user: {
-//       loginId: string;
-//       authFlowType: string;
-//       userId: string;
-//       username: string;
-//     } | string | null | undefined;
-//     created_at: string | undefined;
-//     // Add other optional fields as needed
-//     [key: string]: any;  // This allows for additional properties
-//   }[];
-//   pagination: {
-//     total_records: number;
-//     per_page: number;
-//     current_page: number;
-//     total_pages: number;
-//     next_page: number | null;
-//     prev_page: number | null;
-//   };
-// }
 interface StudiesResponse {
   data: ExportStudyType[];
   pagination: {

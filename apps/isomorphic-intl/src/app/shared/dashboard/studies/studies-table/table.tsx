@@ -65,13 +65,6 @@ export default function StudiesTable() {
     }
   }, [queryData, queryLoading, queryError, dispatch]);
 
-  // const tableData = studiesData?.map((study: StudyType) => ({
-  //   patient_id: study.patient_id ?? 'N/A',
-  //   study_id: study.study_id ?? 'N/A',
-  //   study_phase: study.study_phase ?? 'N/A',
-  //   created_at: study.created_at ?? 'N/A',
-  // })) ?? [];
-
   const { table, setData } = useTanStackTable({
     tableData: studiesData.data,
     columnConfig: studiesColumns,
@@ -85,8 +78,6 @@ export default function StudiesTable() {
       meta: {
         handleDeleteRow: (row: StudyType) => {
           dispatch(deleteStudy(row.patient_id));
-          // console.debug("row.patient_id: ", row.patient_id)
-          // console.debug("row.ct_clock_base64: ", row.ct_clock_base64)
           setData((prev) => prev.filter((r) => r.patient_id !== row.patient_id));
         },
       },
@@ -97,68 +88,14 @@ export default function StudiesTable() {
   const { table: exportTable, setData: setExportTableData } = useTanStackTable({
     tableData: queryData?.data ?? [],
     columnConfig: exportColumns,
-    // options: {
-    //   initialState: {
-    //     pagination: {
-    //       pageIndex: 0,
-    //       pageSize: 10,
-    //     },
-    //   },
-    //   meta: {
-    //     handleDeleteRow: (row: StudyType) => {
-    //       dispatch(deleteStudy(row.patient_id));
-    //       setData((prev) => prev.filter((r) => r.patient_id !== row.patient_id));
-    //     },
-    //   },
-    //   enableColumnResizing: false,
-    // },
   });
-
-  // const handleExportToCsv = (): void => {
-  //   const headers = table
-  //     .getHeaderGroups()
-  //     .map((x) => x.headers)
-  //     .flat();
-
-  //   const rows = table.getCoreRowModel().rows;
-
-  //   const csvBlob = getCsvBlob(headers, rows);
-  //   const url = URL.createObjectURL(csvBlob);
-  //   const a = document.createElement('a');
-  //   a.href = url;
-  //   a.download = 'studies_data.csv';
-  //   document.body.appendChild(a);
-  //   a.click();
-  // };
-  // const handleExportToCsv = (): void => {
-  //   const headers = exportTable
-  //     .getHeaderGroups()
-  //     .map((x) => x.headers)
-  //     .flat();
-
-  //   const rows = exportTable.getCoreRowModel().rows;
-
-  //   // const csvBlob = getCsvBlob(headers, rows);
-  //   exportToCsv('studies_data.csv', headers, rows);
-  //   // const url = URL.createObjectURL(csvBlob);
-  //   // const a = document.createElement('a');
-  //   // a.href = url;
-  //   // a.download = 'studies_data.csv';
-  //   // document.body.appendChild(a);
-  //   // a.click();
-  // };
-
   const generateCSV = (export_type: 'all' | 'visible') => {
     const csvRows = [];
     const rows = export_type === 'visible' ? exportTable.getRowModel().rows : exportTable.getCoreRowModel().rows;
 
-    // Header row
     const headerRow = exportTable.getHeaderGroups()[0].headers.map((header) => header.column.columnDef.header).join(',');
     csvRows.push(headerRow);
 
-
-    // Data rows
-    // exportTable.getRowModel().rows.forEach((row) => {
     rows.forEach((row) => {
       const rowData = row.getVisibleCells().map((cell) => {
         let cellValue = cell.getValue() as string | number | null;

@@ -1,45 +1,14 @@
 'use client';
 
-import { getStatusBadge } from '@core/components/table-utils/get-status-badge';
-import { getStatusColors } from '@core/components/table-utils/get-status-color';
 import TableRowActionGroup from '@core/components/table-utils/table-row-action-group';
-// import { StatusType } from '@/data/shipment-data';
-import AvatarCard from '@core/ui/avatar-card';
 import DateCell from '@core/ui/date-cell';
-import { toCurrency } from '@core/utils/to-currency';
 import { createColumnHelper } from '@tanstack/react-table';
-import { Badge, Checkbox, Text } from 'rizzui';
+import { Text } from 'rizzui';
 import { StudyType } from './table';
 import { ExportStudyType } from './use-studies-query';
-import { getRandomArrayElement } from '@core/utils/get-random-array-element';
-import { avatarIds } from '@core/utils/get-avatar';
-import { saveAs } from 'file-saver';
-import { downloadPNGasJPEG } from '@/utils/helpers';
-
 const columnHelper = createColumnHelper<StudyType>();
 const exportColumnHelper = createColumnHelper<ExportStudyType>();
 export const studiesColumns = [
-  // columnHelper.display({
-  //   id: 'checked',
-  //   size: 70,
-  //   cell: ({ row }) => {
-  //     return (
-  //       <Checkbox
-  //         checked={row.getIsSelected()}
-  //         onChange={row.getToggleSelectedHandler()}
-  //         className="ps-4"
-  //       />
-  //     );
-  //   },
-  // }),
-  // columnHelper.display({
-  //   id: 'patient_id',
-  //   size: 180,
-  //   header: 'Patient ID',
-  //   cell: ({ row }) => {
-  //     return <Text>{row.original.patient_id}</Text>;
-  //   },
-  // }),
   columnHelper.accessor('patient_id', {
     id: 'patient_id',
     size: 180,
@@ -66,14 +35,6 @@ export const studiesColumns = [
       return <Text>{row.original.study_phase}</Text>;
     },
   }),
-  // columnHelper.display({
-  //   id: 'destination',
-  //   size: 200,
-  //   header: 'Destination',
-  //   cell: ({ row }) => {
-  //     return <Text>{row.original.destination}</Text>;
-  //   },
-  // }),
   columnHelper.accessor('created_at', {
     id: 'created_at',
     size: 200,
@@ -82,50 +43,6 @@ export const studiesColumns = [
       return <DateCell date={new Date(row.original.created_at ?? '')} />;
     },
   }),
-  // columnHelper.accessor('cost', {
-  //   id: 'cost',
-  //   size: 140,
-  //   header: 'Total Cost',
-  //   cell: ({ row }) => {
-  //     return (
-  //       <Text className="w-full pe-4 text-end font-medium">
-  //         {toCurrency(row.original.cost)}
-  //       </Text>
-  //     );
-  //   },
-  // }),
-  // columnHelper.accessor('payment', {
-  //   id: 'payment',
-  //   size: 200,
-  //   header: 'Payment Method',
-  //   cell: ({ row }) => {
-  //     return <Text className="font-medium">{row.original.payment}</Text>;
-  //   },
-  // }),
-  // columnHelper.accessor('status', {
-  //   id: 'status',
-  //   size: 170,
-  //   header: 'Status',
-  //   enableSorting: false,
-  //   cell: ({ row }) => {
-  //     return (
-  //       <Badge
-  //         variant="outline"
-  //         className="w-32 font-medium"
-  //         color={getStatusColors(row.original.status as StatusType)}
-  //         data-color={getStatusColors(row.original.status as StatusType)}
-  //       >
-  //         {row.original.status}
-  //       </Badge>
-  //     );
-  //   },
-  // }),
-  // columnHelper.display({
-  //   id: 'invoiceStatus',
-  //   size: 160,
-  //   header: 'Invoice Status',
-  //   cell: ({ row }) => getStatusBadge(row.original.invoiceStatus),
-  // }),
   columnHelper.display({
     id: 'actions',
     size: 140,
@@ -136,14 +53,10 @@ export const studiesColumns = [
       },
     }) => (
       <TableRowActionGroup
-        // onDelete={() =>
-        //   meta?.handleDeleteRow && meta?.handleDeleteRow(row.original)
-        // }
         onDelete={() => {
           console.log('delete');
         }}
-        // row.original.ct_clock_base64 is a base64 encoded string of in image, download it as a jpg image
-        onDownloadClock={async () => { // THis one is working
+        onDownloadClock={async () => {
           try {
             const response = await fetch('data:image/jpg;base64,' + row.original.ct_clock_base64);
             const blob = await response.blob();
@@ -160,64 +73,6 @@ export const studiesColumns = [
             console.error("Error downloading image:", error);
           }
         }}
-        // onDownloadClock={() => {
-        //   downloadPNGasJPEG(row.original.ct_clock_base64, `${row.original.patient_id}_ct_clock.jpg`, '#FFFFFF')
-        //       .then(() => console.log("Image downloaded successfully!"))
-        //       .catch(error => console.error(error));
-        // }}
-
-      // onDownloadClock={async () => {
-      //   try {
-      //     const response = await fetch('data:image/png;base64,' + row.original.ct_clock_base64);
-      //     const blob = await response.blob();
-
-      //     const link = document.createElement('a');
-      //     link.href = URL.createObjectURL(blob);
-      //     link.download = `${row.original.patient_id}_ct_clock.jpg`;
-      //     link.style.display = 'none';
-      //     document.body.appendChild(link);
-      //     link.click();
-      //     document.body.removeChild(link);
-      //     URL.revokeObjectURL(link.href);
-      //   } catch (error) {
-      //     console.error("Error downloading image:", error);
-      //   }
-      // }}
-      // onDownloadClock={() => {
-      //   // 1. Remove the data URL prefix if present
-      //   // const base64 = row.original.ct_clock_base64.replace(/^data:image\/jpeg;base64,/, '');
-      //   const base64 = row.original.ct_clock_base64
-
-      //   console.debug("row.original.ct_clock_base64: ", row)
-
-      //   // 2. Convert base64 to binary
-      //   const byteCharacters = atob(base64);
-      //   const byteArrays = [];
-
-      //   for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-      //     const slice = byteCharacters.slice(offset, offset + 512);
-
-      //     const byteNumbers = new Array(slice.length);
-      //     for (let i = 0; i < slice.length; i++) {
-      //       byteNumbers[i] = slice.charCodeAt(i);
-      //     }
-
-      //     const byteArray = new Uint8Array(byteNumbers);
-      //     byteArrays.push(byteArray);
-      //   }
-
-      //   const blob = new Blob(byteArrays, { type: 'image/jpeg' });
-
-      //   // 3. Create a download link
-      //   const link = document.createElement('a');
-      //   link.href = URL.createObjectURL(blob); // Create a URL for the blob
-      //   link.download = `${row.original.patient_id}_ct_clock.jpg`; // Set the filename
-      //   link.style.display = 'none'; // Hide the link
-      //   document.body.appendChild(link); // Add the link to the DOM
-      //   link.click(); // Simulate a click
-      //   document.body.removeChild(link); // Remove the link from the DOM
-      //   URL.revokeObjectURL(link.href); // Release the URL object
-      // }}
       />
     ),
   }),
@@ -359,7 +214,6 @@ export const exportColumns = [
     size: 200,
     header: 'CT TMT B Duration',
     cell: ({ row }) => {
-      // Display duration in minutes and seconds from "ct_tmt_b_start": "1735887383730" and "ct_tmt_b_end": "1735887496892"
       const start = new Date(parseInt(row.original.ct_tmt_b_start ?? '0'));
       const end = new Date(parseInt(row.original.ct_tmt_b_end ?? '0'));
       const duration = end.getTime() - start.getTime();
@@ -368,14 +222,6 @@ export const exportColumns = [
       return <Text>{`${minutes}:${seconds}`}</Text>;
     },
   }),
-  // exportColumnHelper.accessor('ct_tmt_b_start', {
-  //   id: 'ct_tmt_b_start',
-  //   size: 200,
-  //   header: 'CT TMT B Start',
-  //   cell: ({ row }) => {
-  //     return <Text>{row.original.ct_tmt_b_start}</Text>;
-  //   },
-  // }),
   exportColumnHelper.accessor('ct_tmt_b_wrong_answers_count', {
     id: 'ct_tmt_b_wrong_answers_count',
     size: 200,
@@ -768,12 +614,4 @@ export const exportColumns = [
       return <Text>{row.original.depression_10}</Text>;
     },
   }),
-  // exportColumnHelper.accessor('ct_clock_base64', {
-  //   id: 'ct_clock_base64',
-  //   size: 200,
-  //   header: 'CT Clock Base64',
-  //   cell: ({ row }) => {
-  //     return <img src={`data:image/png;base64,${row.original.ct_clock_base64}`} alt="CT Clock" />;
-  //   },
-  // }),
 ];
