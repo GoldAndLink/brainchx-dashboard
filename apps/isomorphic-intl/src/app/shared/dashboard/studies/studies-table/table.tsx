@@ -57,7 +57,8 @@ export default function StudiesTable() {
         study_id: study.study_id ?? 'N/A',
         study_phase: study.study_phase ?? 'N/A',
         created_at: study.created_at ?? '2025-01-03T06:50:59.945Z',
-        s3_path: study.s3_path ?? null
+        s3_path: study.s3_path ?? null,
+        ct_clock_base64: study.ct_clock_base64 ?? null
       }));
       dispatch(setStudiesHashData(queryData.data));
       setStudiesData({ data: formattedData, pagination: queryData.pagination });
@@ -84,6 +85,8 @@ export default function StudiesTable() {
       meta: {
         handleDeleteRow: (row: StudyType) => {
           dispatch(deleteStudy(row.patient_id));
+          // console.debug("row.patient_id: ", row.patient_id)
+          // console.debug("row.ct_clock_base64: ", row.ct_clock_base64)
           setData((prev) => prev.filter((r) => r.patient_id !== row.patient_id));
         },
       },

@@ -35,7 +35,9 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.mjs",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src",
+    "apps/isomorphic-intl/src/images.d.ts"
   ],
   "exclude": ["node_modules"]
 }

@@ -13,6 +13,8 @@ import { StudyType } from './table';
 import { ExportStudyType } from './use-studies-query';
 import { getRandomArrayElement } from '@core/utils/get-random-array-element';
 import { avatarIds } from '@core/utils/get-avatar';
+import { saveAs } from 'file-saver';
+import { downloadPNGasJPEG } from '@/utils/helpers';
 
 const columnHelper = createColumnHelper<StudyType>();
 const exportColumnHelper = createColumnHelper<ExportStudyType>();
@@ -141,15 +143,81 @@ export const studiesColumns = [
           console.log('delete');
         }}
         // row.original.ct_clock_base64 is a base64 encoded string of in image, download it as a jpg image
-        onDownloadClock={() => {
-          const image = new Image();
-          image.src = `data:image/jpeg;base64,${row.original.ct_clock_base64}`;
-          const link = document.createElement('a');
-          link.href = image.src;
-          link.download = `${row.original.patient_id}_ct_clock.jpg`;
-          document.body.appendChild(link);
-          link.click();
+        onDownloadClock={async () => { // THis one is working
+          try {
+            const response = await fetch('data:image/jpg;base64,' + row.original.ct_clock_base64);
+            const blob = await response.blob();
+
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${row.original.patient_id}_ct_clock.jpg`;
+            link.style.display = 'none';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(link.href);
+          } catch (error) {
+            console.error("Error downloading image:", error);
+          }
         }}
+        // onDownloadClock={() => {
+        //   downloadPNGasJPEG(row.original.ct_clock_base64, `${row.original.patient_id}_ct_clock.jpg`, '#FFFFFF')
+        //       .then(() => console.log("Image downloaded successfully!"))
+        //       .catch(error => console.error(error));
+        // }}
+
+      // onDownloadClock={async () => {
+      //   try {
+      //     const response = await fetch('data:image/png;base64,' + row.original.ct_clock_base64);
+      //     const blob = await response.blob();
+
+      //     const link = document.createElement('a');
+      //     link.href = URL.createObjectURL(blob);
+      //     link.download = `${row.original.patient_id}_ct_clock.jpg`;
+      //     link.style.display = 'none';
+      //     document.body.appendChild(link);
+      //     link.click();
+      //     document.body.removeChild(link);
+      //     URL.revokeObjectURL(link.href);
+      //   } catch (error) {
+      //     console.error("Error downloading image:", error);
+      //   }
+      // }}
+      // onDownloadClock={() => {
+      //   // 1. Remove the data URL prefix if present
+      //   // const base64 = row.original.ct_clock_base64.replace(/^data:image\/jpeg;base64,/, '');
+      //   const base64 = row.original.ct_clock_base64
+
+      //   console.debug("row.original.ct_clock_base64: ", row)
+
+      //   // 2. Convert base64 to binary
+      //   const byteCharacters = atob(base64);
+      //   const byteArrays = [];
+
+      //   for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      //     const slice = byteCharacters.slice(offset, offset + 512);
+
+      //     const byteNumbers = new Array(slice.length);
+      //     for (let i = 0; i < slice.length; i++) {
+      //       byteNumbers[i] = slice.charCodeAt(i);
+      //     }
+
+      //     const byteArray = new Uint8Array(byteNumbers);
+      //     byteArrays.push(byteArray);
+      //   }
+
+      //   const blob = new Blob(byteArrays, { type: 'image/jpeg' });
+
+      //   // 3. Create a download link
+      //   const link = document.createElement('a');
+      //   link.href = URL.createObjectURL(blob); // Create a URL for the blob
+      //   link.download = `${row.original.patient_id}_ct_clock.jpg`; // Set the filename
+      //   link.style.display = 'none'; // Hide the link
+      //   document.body.appendChild(link); // Add the link to the DOM
+      //   link.click(); // Simulate a click
+      //   document.body.removeChild(link); // Remove the link from the DOM
+      //   URL.revokeObjectURL(link.href); // Release the URL object
+      // }}
       />
     ),
   }),
@@ -318,7 +386,7 @@ export const exportColumns = [
   }),
   exportColumnHelper.accessor('scdq_1', {
     id: 'scdq_1',
-    size: 200,  
+    size: 200,
     header: 'SCDQ 1',
     cell: ({ row }) => {
       return <Text>{row.original.scdq_1}</Text>;
@@ -336,18 +404,18 @@ export const exportColumns = [
     id: 'scdq_3',
     size: 200,
     header: 'SCDQ 3',
-    cell: ({ row }) => {  
+    cell: ({ row }) => {
       return <Text>{row.original.scdq_3}</Text>;
     },
   }),
   exportColumnHelper.accessor('scdq_4', {
     id: 'scdq_4',
-    size: 200,  
+    size: 200,
     header: 'SCDQ 4',
     cell: ({ row }) => {
       return <Text>{row.original.scdq_4}</Text>;
     },
-  }), 
+  }),
   exportColumnHelper.accessor('scdq_5', {
     id: 'scdq_5',
     size: 200,
