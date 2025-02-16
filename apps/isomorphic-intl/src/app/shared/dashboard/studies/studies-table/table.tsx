@@ -127,23 +127,23 @@ export default function StudiesTable() {
   //   document.body.appendChild(a);
   //   a.click();
   // };
-  const handleExportToCsv = (): void => {
-    const headers = exportTable
-      .getHeaderGroups()
-      .map((x) => x.headers)
-      .flat();
+  // const handleExportToCsv = (): void => {
+  //   const headers = exportTable
+  //     .getHeaderGroups()
+  //     .map((x) => x.headers)
+  //     .flat();
 
-    const rows = exportTable.getCoreRowModel().rows;
+  //   const rows = exportTable.getCoreRowModel().rows;
 
-    // const csvBlob = getCsvBlob(headers, rows);
-    exportToCsv('studies_data.csv', headers, rows);
-    // const url = URL.createObjectURL(csvBlob);
-    // const a = document.createElement('a');
-    // a.href = url;
-    // a.download = 'studies_data.csv';
-    // document.body.appendChild(a);
-    // a.click();
-  };
+  //   // const csvBlob = getCsvBlob(headers, rows);
+  //   exportToCsv('studies_data.csv', headers, rows);
+  //   // const url = URL.createObjectURL(csvBlob);
+  //   // const a = document.createElement('a');
+  //   // a.href = url;
+  //   // a.download = 'studies_data.csv';
+  //   // document.body.appendChild(a);
+  //   // a.click();
+  // };
 
   const generateCSV = () => {
     const csvRows = [];
@@ -154,7 +154,8 @@ export default function StudiesTable() {
 
 
     // Data rows
-    exportTable.getRowModel().rows.forEach((row) => {
+    // exportTable.getRowModel().rows.forEach((row) => {
+    exportTable.getCoreRowModel().rows.forEach((row) => {
       const rowData = row.getVisibleCells().map((cell) => {
         let cellValue = cell.getValue() as string | number | null;
 

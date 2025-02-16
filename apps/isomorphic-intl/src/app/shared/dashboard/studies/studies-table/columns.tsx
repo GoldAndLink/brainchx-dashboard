@@ -140,6 +140,9 @@ export const studiesColumns = [
         onDelete={() => {
           console.log('delete');
         }}
+        onDownloadClock={() => {
+          console.log('download');
+        }}
       />
     ),
   }),
@@ -257,7 +260,7 @@ export const exportColumns = [
     size: 200,
     header: 'CT LOT Answers',
     cell: ({ row }) => {
-      return <Text>{String(row.original.ct_lot_answers).replace(/"/g, '&quot;')}</Text>;
+      return <Text>{String(row.original.ct_lot_answers).replace(/"/g, '""')}</Text>;
     },
   }),
   exportColumnHelper.accessor('ct_lot_right_answers_count', {
@@ -265,7 +268,7 @@ export const exportColumns = [
     size: 200,
     header: 'CT LOT Right Answers Count',
     cell: ({ row }) => {
-      return <Text>{String(row.original.ct_lot_right_answers_count).replace(/"/g, '&quot;')}</Text>;
+      return <Text>{String(row.original.ct_lot_right_answers_count).replace(/"/g, '""')}</Text>;
     },
   }),
   exportColumnHelper.accessor('ct_lot_wrong_answers_count', {
@@ -273,7 +276,7 @@ export const exportColumns = [
     size: 200,
     header: 'CT LOT Wrong Answers Count',
     cell: ({ row }) => {
-      return <Text>{String(row.original.ct_lot_wrong_answers_count).replace(/"/g, '&quot;')}</Text>;
+      return <Text>{String(row.original.ct_lot_wrong_answers_count).replace(/"/g, '""')}</Text>;
     },
   }),
   exportColumnHelper.accessor('ct_tmt_b_duration', {
@@ -281,7 +284,13 @@ export const exportColumns = [
     size: 200,
     header: 'CT TMT B Duration',
     cell: ({ row }) => {
-      return <Text>{row.original.ct_tmt_b_end}</Text>;
+      // Display duration in minutes and seconds from ct_tmt_b_start and ct_tmt_b_end
+      const start = new Date(row.original.ct_tmt_b_start ?? '');
+      const end = new Date(row.original.ct_tmt_b_end ?? '');
+      const duration = end.getTime() - start.getTime();
+      const minutes = Math.floor(duration / (1000 * 60));
+      const seconds = Math.floor((duration % (1000 * 60)) / 1000);
+      return <Text>{`${minutes}:${seconds}`}</Text>;
     },
   }),
   // exportColumnHelper.accessor('ct_tmt_b_start', {

@@ -1,5 +1,6 @@
 import EyeIcon from "@core/components/icons/eye";
 import PencilIcon from "@core/components/icons/pencil";
+import YoutubeIcon from "@core/components/icons/youtube";
 import { ActionIcon, Flex, Tooltip } from "rizzui";
 import Link from "next/link";
 import cn from "@core/utils/class-names";
@@ -7,6 +8,7 @@ import DeletePopover from "../delete-popover";
 
 export default function TableRowActionGroup({
   onDelete,
+  onDownloadClock,
   editUrl = "#",
   viewUrl = "#",
   deletePopoverTitle = "Delete data",
@@ -14,6 +16,7 @@ export default function TableRowActionGroup({
   className,
 }: {
   onDelete?: () => void;
+  onDownloadClock?: () => void;
   editUrl?: string;
   viewUrl?: string;
   deletePopoverTitle?: string;
@@ -27,6 +30,22 @@ export default function TableRowActionGroup({
       gap="3"
       className={cn("pe-3", className)}
     >
+      <Tooltip
+        size="sm"
+        content="Download Clock"
+        placement="top"
+        color="invert"
+      >
+        <ActionIcon
+          as="span"
+          size="sm"
+          variant="outline"
+          aria-label="Download Clock"
+          onClick={onDownloadClock}
+        >
+          <YoutubeIcon className="size-4" />
+        </ActionIcon>
+      </Tooltip>
       <Tooltip
         size="sm"
         content="Edit Item"
