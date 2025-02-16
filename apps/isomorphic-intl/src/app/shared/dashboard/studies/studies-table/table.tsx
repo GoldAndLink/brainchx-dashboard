@@ -156,14 +156,14 @@ export default function StudiesTable() {
     // Data rows
     exportTable.getRowModel().rows.forEach((row) => {
       const rowData = row.getVisibleCells().map((cell) => {
-          let cellValue = cell.getValue();
+        let cellValue = cell.getValue() as string | number | null;
 
-          // Escape commas, quotes, and newlines
-          cellValue = String(cellValue).replace(/"/g, '""'); // Escape double quotes
-          if (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n')) {
-              cellValue = `"${cellValue}"`; // Enclose in double quotes
-          }
-          return cellValue;
+        // Escape commas, quotes, and newlines
+        cellValue = String(cellValue).replace(/"/g, '""'); // Escape double quotes
+        if (cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n')) {
+          cellValue = `"${cellValue}"`; // Enclose in double quotes
+        }
+        return cellValue;
       }).join(',');
       csvRows.push(rowData);
     });
@@ -195,8 +195,8 @@ export default function StudiesTable() {
 
   return (
     <>
-      <button 
-        onClick={generateCSV} 
+      <button
+        onClick={generateCSV}
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
       >
         Export all to CSV
