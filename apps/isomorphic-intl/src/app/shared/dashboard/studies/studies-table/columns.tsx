@@ -140,8 +140,15 @@ export const studiesColumns = [
         onDelete={() => {
           console.log('delete');
         }}
+        // row.original.ct_clock_base64 is a base64 encoded string of in image, download it as a jpg image
         onDownloadClock={() => {
-          console.log('download');
+          const image = new Image();
+          image.src = `data:image/jpeg;base64,${row.original.ct_clock_base64}`;
+          const link = document.createElement('a');
+          link.href = image.src;
+          link.download = `${row.original.patient_id}_ct_clock.jpg`;
+          document.body.appendChild(link);
+          link.click();
         }}
       />
     ),
@@ -284,9 +291,9 @@ export const exportColumns = [
     size: 200,
     header: 'CT TMT B Duration',
     cell: ({ row }) => {
-      // Display duration in minutes and seconds from ct_tmt_b_start and ct_tmt_b_end
-      const start = new Date(row.original.ct_tmt_b_start ?? '');
-      const end = new Date(row.original.ct_tmt_b_end ?? '');
+      // Display duration in minutes and seconds from "ct_tmt_b_start": "1735887383730" and "ct_tmt_b_end": "1735887496892"
+      const start = new Date(parseInt(row.original.ct_tmt_b_start ?? '0'));
+      const end = new Date(parseInt(row.original.ct_tmt_b_end ?? '0'));
       const duration = end.getTime() - start.getTime();
       const minutes = Math.floor(duration / (1000 * 60));
       const seconds = Math.floor((duration % (1000 * 60)) / 1000);

@@ -145,8 +145,9 @@ export default function StudiesTable() {
   //   // a.click();
   // };
 
-  const generateCSV = () => {
+  const generateCSV = (export_type: 'all' | 'visible') => {
     const csvRows = [];
+    const rows = export_type === 'visible' ? exportTable.getRowModel().rows : exportTable.getCoreRowModel().rows;
 
     // Header row
     const headerRow = exportTable.getHeaderGroups()[0].headers.map((header) => header.column.columnDef.header).join(',');
@@ -155,7 +156,7 @@ export default function StudiesTable() {
 
     // Data rows
     // exportTable.getRowModel().rows.forEach((row) => {
-    exportTable.getCoreRowModel().rows.forEach((row) => {
+    rows.forEach((row) => {
       const rowData = row.getVisibleCells().map((cell) => {
         let cellValue = cell.getValue() as string | number | null;
 
@@ -174,7 +175,6 @@ export default function StudiesTable() {
     saveAs(blob, 'data.csv'); // Download the file
   };
 
-  // Effect to refresh table data when studiesData changes
   useEffect(() => {
     setData(studiesData.data);
     setIsLoading(false)
@@ -197,10 +197,16 @@ export default function StudiesTable() {
   return (
     <>
       <button
-        onClick={generateCSV}
+        onClick={() => generateCSV('all')}
         className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
       >
         Export all to CSV
+      </button>
+      <button
+        onClick={() => generateCSV('visible')}
+        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
+      >
+        Export visible to CSV
       </button>
       <Filters table={exportTable} />
       <Table table={exportTable} variant="modern" />
